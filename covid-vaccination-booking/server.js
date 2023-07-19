@@ -80,6 +80,9 @@ app.get('/admin/signup', (req, res) => {
 app.get('/', (req, res) => {
   res.render('home');
 });
+app.get('/main', (req, res) => {
+  res.render('main');
+});
 
 // Start the server
 app.listen(PORT, () => {

@@ -1,0 +1,133 @@
+<!-- admin-signup.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Signup</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<style>
+    /* style.css */
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    .container {
+        text-align: center;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 400px;
+        width: 90%;
+    }
+    
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+    
+    .signup-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+    
+    label {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #444;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        outline: none;
+        font-size: 16px;
+        transition: border-color 0.2s ease-in-out;
+    }
+    
+    input[type="text"] {
+        /* Wider name input box */
+        width: 80%;
+        max-width: 300px;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #007bff;
+    }
+    
+    button {
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+    .login-link {
+        margin-top: 15px;
+    }
+    
+    .login-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Admin Signup</h1>
+        <form class="signup-form" action="/admin/signup" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="/admin/login">Login</a></p>
+    </div>
+</body>
+
+</html>
