@@ -1,58 +1,65 @@
 const Admin = require('../models/Admin');
 /* const VaccinationCentre = require('../models/Admin'); */
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const adminController = {
 
-    signup: async (req, res) => {
-        const { name, email, password, role } = req.body;
     
-        try {
-          // Check if the email is already registered
-          const existingAdmin = await Admin.findOne({ email });
-    
-          if (existingAdmin) {
-            return res.status(409).json({ error: 'Email already registered' });
+        signup: async (req, res) => {
+          const { name, email, password } = req.body;
+      
+          try {
+            // Check if the email is already registered
+            const existingAdmin = await Admin.findOne({ email });
+      
+            if (existingAdmin) {
+              return res.status(409).json({ error: 'Email already registered' });
+            }
+      
+            // Create a new admin with the role set to "admin" by default
+            const newAdmin = new Admin({ name, email, password, role: 'admin' });
+      
+            // Save the admin to the database
+            await newAdmin.save();
+      
+            // Redirect to the admin login page after successful registration
+            res.redirect('/admin/login');
+      
+          } catch (error) {
+            console.error('Error while signing up:', error);
+            res.status(500).json({ error: 'Server error' });
           }
+        },
     
-          // Create a new admin
-          const newAdmin = new Admin({ name, email, password, role });
-    
-          // Save the admin to the database
-          await newAdmin.save();
-    
-          // Remove the password from the response for security reasons
-          newAdmin.password = undefined;
-    
-          return res.status(201).json(newAdmin);
-        } catch (error) {
-          console.error('Error while signing up as admin:', error);
-          res.status(500).json({ error: 'Server error' });
-        }
-      },
-    
-  login: async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-      // Check if the admin exists with the provided email
-      const admin = await Admin.findOne({ email });
-
-      if (!admin) {
-        return res.status(404).json({ error: 'Admin not found' });
-      }
-
-      // Check if the password is correct
-      if (admin.password !== password) {
-        return res.status(401).json({ error: 'Invalid password' });
-      }
-
-      // Admin login successful
-      return res.status(200).json({ message: 'Login successful', admin });
-    } catch (error) {
-      console.error('Error while logging in as admin:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  },
+        login: async (req, res) => {
+            const { email, password } = req.body;
+        
+            try {
+              // Check if the user exists with the provided email
+              const user = await Admin.findOne({ email });
+        
+              if (!user) {
+                return res.status(404).json({ error: 'Admin not found' });
+              }
+        
+              // Check if the password is correct
+              if (user.password !== password) {
+                return res.status(401).json({ error: 'Invalid password' });
+              }
+        
+              // User login successful
+        
+              // Store user information in session for future use (e.g., to check if the user is logged in)
+              req.session.user = Admin;
+        
+              // Redirect to the main page after successful login
+              res.redirect('/admin/main'); // Change '/main' to the path of your main page (e.g., '/main')
+        
+            } catch (error) {
+              console.error('Error while logging in:', error);
+              res.status(500).json({ error: 'Server error' });
+            }
+          },
 
   addVaccinationCentres: async (req, res) => {
     const { adminId, name, start ,end } = req.body;

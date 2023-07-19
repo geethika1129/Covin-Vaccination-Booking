@@ -72,6 +72,9 @@ app.get('/user/signup', (req, res) => {
 app.get('/admin/login', (req, res) => {
   res.render('adminlogin');
 });
+app.get('/admin/main', (req, res) => {
+  res.render('adminmain');
+});
 
 app.get('/main', (req, res) => {
     // Check if the user is logged in (authenticated)
@@ -81,6 +84,17 @@ app.get('/main', (req, res) => {
     } else {
       // User is not logged in, redirect to the login page
       res.redirect('/user/login'); // Change '/user/login' to the path of your login page (e.g., '/user/login')
+    }
+  });
+
+app.get('/adminmain', (req, res) => {
+    // Check if the user is logged in (authenticated)
+    if (req.session.user) {
+      // User is logged in, render the main page
+      res.render('adminmain'); // Create a 'main.ejs' file in the 'views' folder for the main page
+    } else {
+      // User is not logged in, redirect to the login page
+      res.redirect('/admin/login'); // Change '/user/login' to the path of your login page (e.g., '/user/login')
     }
   });
 
