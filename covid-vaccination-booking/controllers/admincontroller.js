@@ -55,7 +55,7 @@ const adminController = {
   },
 
   addVaccinationCentres: async (req, res) => {
-    const { adminId, name, workingHours } = req.body;
+    const { adminId, name, start ,end } = req.body;
 
     try {
       // Check if the admin exists
@@ -66,7 +66,7 @@ const adminController = {
       }
 
       // Add a new vaccination centre
-      admin.vaccinationCentres.push({ name, workingHours });
+      admin.vaccinationCentres.push({ name, start ,end  });
 
       await admin.save();
 
