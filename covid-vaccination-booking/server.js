@@ -40,10 +40,12 @@ mongoose.connect('mongodb+srv://geethika1129:pass@cluster0.v0jx5ej.mongodb.net/'
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Routes
+
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
-// Routes
-// ...
+
 
 // Start the server
 app.listen(PORT, () => {
