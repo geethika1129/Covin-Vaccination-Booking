@@ -44,13 +44,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-      secret: 'your-secret-key', // Replace this with a secure random string for session encryption
+      secret: 'pass', // Replace this with a secure random string for session encryption
       resave: false,
       saveUninitialized: true
     })
   );
 
-  
+
 
 // Routes
 

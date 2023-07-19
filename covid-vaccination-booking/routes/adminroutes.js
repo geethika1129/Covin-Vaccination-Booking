@@ -8,5 +8,6 @@ router.post('/login', adminController.login);
 router.post('/vaccination-centres', adminController.addVaccinationCentres);
 router.get('/dosage-details', adminController.getDosageDetails);
 router.delete('/vaccination-centres/:id', adminController.removeVaccinationCentre);
+router.post('/logout', adminController.logout);
 
 module.exports = router;
