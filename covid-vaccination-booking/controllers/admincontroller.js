@@ -127,7 +127,26 @@ const adminController = {
       console.error('Error while removing vaccination centre:', error);
       res.status(500).json({ error: 'Server error' });
     }
-  }
+  },
+
+  
+  logout: async (req, res) => {
+    try {
+      // Destroy the session to log out the admin
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error while logging out:', err);
+          res.status(500).json({ error: 'Server error' });
+        } else {
+          res.status(200).json({ message: 'Logout successful' });
+        }
+      });
+    } catch (error) {
+      console.error('Error while logging out:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+}
+
 };
 
 module.exports = adminController;
