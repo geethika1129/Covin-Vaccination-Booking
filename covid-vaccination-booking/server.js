@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Admin = require('./models/Admin');
 
+const userRoutes = require('./routes/userroutes');
+const adminRoutes = require('./routes/adminroutes');
+
 const { body, validationResult } = require('express-validator');
 
 const app = express();
@@ -37,7 +40,8 @@ mongoose.connect('mongodb+srv://geethika1129:pass@cluster0.v0jx5ej.mongodb.net/'
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 // Routes
 // ...
 
