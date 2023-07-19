@@ -35,30 +35,32 @@ const userController = {
         // Other controller methods...
       
 
-  signup: async (req, res) => {
-    const { name, email, password, role } = req.body;
-
-    try {
-      // Check if the email is already registered
-      const existingUser = await User.findOne({ email });
-
-      if (existingUser) {
-        return res.status(409).json({ error: 'Email already registered' });
+        signup: async (req, res) => {
+            const { name, email, password } = req.body;
         
-      }
-
-      // Create a new user
-      const newUser = new User({ name, email, password, role });
-
-      // Save the user to the database
-      await newUser.save();
-
-      return res.status(201).json({ message: 'User created successfully' });
-    } catch (error) {
-      console.error('Error while signing up:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  },
+            try {
+              // Check if the email is already registered
+              const existingUser = await User.findOne({ email });
+        
+              if (existingUser) {
+                return res.status(409).json({ error: 'Email already registered' });
+              }
+        
+              // Create a new user with the role set to "user" by default
+              const newUser = new User({ name, email, password, role: 'user' });
+        
+              // Save the user to the database
+              await newUser.save();
+        
+              // Redirect to the user login page after successful registration
+              res.redirect('/user/login');
+        
+            } catch (error) {
+              console.error('Error while signing up:', error);
+              res.status(500).json({ error: 'Server error' });
+            }
+          },
+        
 
   searchVaccinationCentres: async (req, res) => {
     try {
