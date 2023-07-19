@@ -1,30 +1,39 @@
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
-
 const userController = {
-  login: async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-      // Check if the user exists with the provided email
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      // Check if the password is correct
-      if (user.password !== password) {
-        return res.status(401).json({ error: 'Invalid password' });
-      }
-
-      // User login successful
-      return res.status(200).json({ message: 'Login successful', user });
-    } catch (error) {
-      console.error('Error while logging in:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  },
+    
+        login: async (req, res) => {
+          const { email, password } = req.body;
+      
+          try {
+            // Check if the user exists with the provided email
+            const user = await User.findOne({ email });
+      
+            if (!user) {
+              return res.status(404).json({ error: 'User not found' });
+            }
+      
+            // Check if the password is correct
+            if (user.password !== password) {
+              return res.status(401).json({ error: 'Invalid password' });
+            }
+      
+            // User login successful
+      
+            // Store user information in session for future use (e.g., to check if the user is logged in)
+            req.session.user = user;
+      
+            // Redirect to the main page after successful login
+            res.redirect('/main'); // Change '/main' to the path of your main page (e.g., '/main')
+      
+          } catch (error) {
+            console.error('Error while logging in:', error);
+            res.status(500).json({ error: 'Server error' });
+          }
+        },
+      
+        // Other controller methods...
+      
 
   signup: async (req, res) => {
     const { name, email, password, role } = req.body;
@@ -35,6 +44,7 @@ const userController = {
 
       if (existingUser) {
         return res.status(409).json({ error: 'Email already registered' });
+        
       }
 
       // Create a new user
