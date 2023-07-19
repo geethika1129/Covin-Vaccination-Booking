@@ -1,5 +1,5 @@
 const Admin = require('../models/Admin');
-const VaccinationCentre = require('../models/Admin');
+/* const VaccinationCentre = require('../models/Admin'); */
 
 const adminController = {
 
@@ -66,7 +66,7 @@ const adminController = {
       }
 
       // Add a new vaccination centre
-      admin.vaccinationCentres.push({ name, start ,end  });
+      admin.vaccinationCentre.push({ name, start ,end  });
 
       await admin.save();
 
