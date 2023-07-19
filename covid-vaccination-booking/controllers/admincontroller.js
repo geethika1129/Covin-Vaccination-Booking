@@ -2,6 +2,34 @@ const Admin = require('../models/Admin');
 const VaccinationCentre = require('../models/Admin');
 
 const adminController = {
+
+    signup: async (req, res) => {
+        const { name, email, password, role } = req.body;
+    
+        try {
+          // Check if the email is already registered
+          const existingAdmin = await Admin.findOne({ email });
+    
+          if (existingAdmin) {
+            return res.status(409).json({ error: 'Email already registered' });
+          }
+    
+          // Create a new admin
+          const newAdmin = new Admin({ name, email, password, role });
+    
+          // Save the admin to the database
+          await newAdmin.save();
+    
+          // Remove the password from the response for security reasons
+          newAdmin.password = undefined;
+    
+          return res.status(201).json(newAdmin);
+        } catch (error) {
+          console.error('Error while signing up as admin:', error);
+          res.status(500).json({ error: 'Server error' });
+        }
+      },
+    
   login: async (req, res) => {
     const { email, password } = req.body;
 
