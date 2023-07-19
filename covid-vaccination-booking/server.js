@@ -69,6 +69,13 @@ app.get('/user/login', (req, res) => {
 app.get('/user/signup', (req, res) => {
   res.render('usersignup');
 });
+app.get('/admin/login', (req, res) => {
+  res.render('adminlogin');
+});
+
+app.get('/admin/signup', (req, res) => {
+  res.render('adminsignup');
+});
 
 app.get('/', (req, res) => {
   res.render('home');
