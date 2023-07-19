@@ -25,10 +25,16 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      workingHours: {
-        type: String,
+      start: {
+        type: Date,
+        required: true
+      },
+      end: {
+        type: Date,
         required: true
       }
+      
+
     }
   ]
 });

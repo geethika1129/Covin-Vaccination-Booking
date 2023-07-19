@@ -58,7 +58,7 @@ const userController = {
 
   searchVaccinationCentres: async (req, res) => {
     try {
-      // Assuming you have a model for VaccinationCentre with fields: name and workingHours
+      // Assuming you have a model for VaccinationCentre with fields: name and start end
       const vaccinationCentres = await VaccinationCentre.find({});
 
       return res.status(200).json({ vaccinationCentres });
