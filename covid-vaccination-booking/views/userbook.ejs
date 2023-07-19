@@ -1,1 +1,105 @@
-<h1>eee</h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Appointment Form</title>
+    <!-- Include your CSS file (if any) here -->
+</head>
+
+<body>
+    <style>
+        /* styles.css */
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button[type="submit"] {
+            background-color: #574caf;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #27559a;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .login-link a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="container">
+        <h2>Book Appointment</h2>
+        <form action="/bookAppointment" method="POST" class="appointment-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="vaccinationCenter">Vaccination Center</label>
+                <input type="text" id="vaccinationCenter" name="vaccinationCenter" required>
+            </div>
+            <div class="form-group">
+                <label for="vaccinationSlot">Vaccination Slot (Time)</label>
+                <input type="time" id="vaccinationSlot" name="vaccinationSlot" required>
+            </div>
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+    <!-- Include your JavaScript file (if any) here -->
+</body>
+
+</html>

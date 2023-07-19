@@ -78,6 +78,9 @@ app.get('/admin/main', (req, res) => {
 app.get('/user/book', (req, res) => {
   res.render('userbook');
 });
+app.get('/admin/add', (req, res) => {
+  res.render('adminadd');
+});
 
 app.get('/main', (req, res) => {
     // Check if the user is logged in (authenticated)
@@ -103,6 +106,9 @@ app.get('/adminmain', (req, res) => {
 
 app.get('/admin/signup', (req, res) => {
   res.render('adminsignup');
+});
+app.get('/admin/add', (req, res) => {
+  res.render('adminadd');
 });
 
 app.get('/', (req, res) => {
