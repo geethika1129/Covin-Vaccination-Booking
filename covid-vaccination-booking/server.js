@@ -75,6 +75,9 @@ app.get('/admin/login', (req, res) => {
 app.get('/admin/main', (req, res) => {
   res.render('adminmain');
 });
+app.get('/user/book', (req, res) => {
+  res.render('userbook');
+});
 
 app.get('/main', (req, res) => {
     // Check if the user is logged in (authenticated)
