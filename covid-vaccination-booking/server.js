@@ -42,6 +42,15 @@ mongoose.connect('mongodb+srv://geethika1129:pass@cluster0.v0jx5ej.mongodb.net/'
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+    session({
+      secret: 'your-secret-key', // Replace this with a secure random string for session encryption
+      resave: false,
+      saveUninitialized: true
+    })
+  );
+
+  
 
 // Routes
 
