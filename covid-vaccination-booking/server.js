@@ -14,7 +14,7 @@ const { body, validationResult } = require('express-validator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const path = require('path');
 // Connect to MongoDB
 /* mongoose.connect('mongodb+srv://geethika1129:pass@cluster0.v0jx5ej.mongodb.net/', {
   useNewUrlParser: true,
@@ -40,6 +40,8 @@ mongoose.connect('mongodb+srv://geethika1129:pass@cluster0.v0jx5ej.mongodb.net/'
 });
 
 // Middleware setup
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -52,11 +54,25 @@ app.use(
 
 
 
-// Routes
+
 
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
+// Serve static files from the public folder
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
+app.get('/user/login', (req, res) => {
+  res.render('userlogin');
+});
+
+app.get('/user/signup', (req, res) => {
+  res.render('usersignup');
+});
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
 
 // Start the server
 app.listen(PORT, () => {
