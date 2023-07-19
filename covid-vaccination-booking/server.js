@@ -73,6 +73,17 @@ app.get('/admin/login', (req, res) => {
   res.render('adminlogin');
 });
 
+app.get('/main', (req, res) => {
+    // Check if the user is logged in (authenticated)
+    if (req.session.user) {
+      // User is logged in, render the main page
+      res.render('main'); // Create a 'main.ejs' file in the 'views' folder for the main page
+    } else {
+      // User is not logged in, redirect to the login page
+      res.redirect('/user/login'); // Change '/user/login' to the path of your login page (e.g., '/user/login')
+    }
+  });
+
 app.get('/admin/signup', (req, res) => {
   res.render('adminsignup');
 });

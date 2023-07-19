@@ -29,12 +29,6 @@ const userController = {
   signup: async (req, res) => {
     const { name, email, password, role } = req.body;
 
-    // Validate the user input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     try {
       // Check if the email is already registered
       const existingUser = await User.findOne({ email });
@@ -58,7 +52,7 @@ const userController = {
 
   searchVaccinationCentres: async (req, res) => {
     try {
-      // Assuming you have a model for VaccinationCentre with fields: name and start end
+      // Assuming you have a model for VaccinationCentre with fields: name and workingHours
       const vaccinationCentres = await VaccinationCentre.find({});
 
       return res.status(200).json({ vaccinationCentres });
