@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Vaccination Center</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Add Vaccination Center</h2>
+        <form class="signup-form" action="/admin/addVaccinationCentres" method="POST">
+            <div class="form-group">
+                <label for="name">Center Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="slots">Slots Available</label>
+                <input type="number" id="slots" name="slots" required>
+            </div>
+            <button type="submit">Add Center</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="/admin/login">Login</a></p>
+    </div>
+</body>
+
+</html>
