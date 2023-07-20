@@ -1,42 +1,151 @@
-<!-- Add a form for the user to input the vaccination center name -->
-<form id="searchForm">
-    <label for="centerName">Enter Vaccination Center Name:</label>
-    <input type="text" id="centerName" required>
-    <button type="submit">Search</button>
-</form>
+<!DOCTYPE html>
+<html>
 
-<!-- Create a container to display the search results -->
-<div id="searchResults"></div>
-<!-- Your existing HTML code for the search form and search results container -->
-
-<script>
-    async function handleSearchForm(event) {
-        event.preventDefault();
-
-        const searchQuery = document.getElementById('centerName').value;
-
-        try {
-            const encodedQuery = encodeURIComponent(searchQuery);
-            const response = await fetch(`/user/searchCentre?query=${encodedQuery}`);
-
-            if (response.ok) {
-                const data = await response.json();
-                displaySearchResults(data);
-            } else {
-                const errorData = await response.text();
-                console.error('Search failed:', errorData);
-                displayErrorMessage('Search failed. Please try again later.');
-            }
-        } catch (error) {
-            console.error('Error while searching:', error);
-            displayErrorMessage('Error while searching. Please try again later.');
+<head>
+    <title>Search Vaccination Centers</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f2f2f2;
         }
-    }
+        
+        h1 {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        
+        #searchBar {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        #searchButton {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #searchButton:hover {
+            background-color: #0056b3;
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .card h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
 
-    function displayErrorMessage(message) {
-        const searchResultsContainer = document.getElementById('searchResults');
-        searchResultsContainer.innerHTML = `<p>${message}</p>`;
-    }
+<body>
+    <h1>Search Vaccination Centers</h1>
+    <div>
+        <input type="text" id="searchBar" placeholder="Enter Vaccination Center Name">
+        <button id="searchButton">Search</button>
+    </div>
 
-    // Your existing code for createVaccinationCenterCard and event listener
-</script>
+    <div class="cards-container" id="searchResults">
+        <!-- Search results will be displayed here -->
+    </div>
+
+    <script>
+        // Function to fetch vaccination center data from the backend
+        async function fetchVaccinationCentres(searchQuery) {
+            try {
+                const response = await fetch(`/user/searchCentre?query=${encodeURIComponent(searchQuery)}`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching vaccination centers:', error);
+                return [];
+            }
+        }
+
+        // Function to create a vaccination center card
+        function createVaccinationCenterCard(centre) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const nameElement = document.createElement('p');
+            nameElement.textContent = `Name: ${centre.name}`;
+            card.appendChild(nameElement);
+
+            const startTimeElement = document.createElement('p');
+            startTimeElement.textContent = `Start Time: ${centre.startTime}`;
+            card.appendChild(startTimeElement);
+
+            const endTimeElement = document.createElement('p');
+            endTimeElement.textContent = `End Time: ${centre.endTime}`;
+            card.appendChild(endTimeElement);
+
+            const slotsAvailableElement = document.createElement('p');
+            slotsAvailableElement.textContent = `Slots Available: ${centre.slotsAvailable}`;
+            card.appendChild(slotsAvailableElement);
+
+            return card;
+        }
+
+        // Function to render vaccination center cards
+        async function renderVaccinationCentres() {
+            const searchBar = document.getElementById('searchBar');
+            const searchButton = document.getElementById('searchButton');
+
+            searchButton.addEventListener('click', async() => {
+                const searchQuery = searchBar.value;
+                const vaccinationCentres = await fetchVaccinationCentres(searchQuery);
+
+                const searchResultsContainer = document.getElementById('searchResults');
+                searchResultsContainer.innerHTML = '';
+
+                if (vaccinationCentres.length === 0) {
+                    searchResultsContainer.textContent = 'No matching vaccination centers found.';
+                    return;
+                }
+
+                vaccinationCentres.forEach(centre => {
+                    const card = createVaccinationCenterCard(centre);
+                    searchResultsContainer.appendChild(card);
+                });
+            });
+        }
+
+        // Initial rendering of vaccination center cards
+        renderVaccinationCentres();
+    </script>
+</body>
+
+</html>
