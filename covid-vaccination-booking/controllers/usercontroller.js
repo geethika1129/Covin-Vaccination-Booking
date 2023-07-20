@@ -141,8 +141,8 @@ applyForVaccinationSlot: async (req, res) => {
 
         // Create a new appointment record
         const newAppointment = new Appointment({
-            user: user._id, // Assign the user's _id to the appointment's user field
-            centre: centre._id,
+            user: user.name, // Assign the user's _id to the appointment's user field
+            centre: centre.name,
             date: appointmentDate,
         });
 

@@ -7,159 +7,82 @@
 </head>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f2f2f2;
-    }
-    
-    .container {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
-        width: 100%;
-    }
-    
-    .container h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    .form-group label {
-        font-weight: bold;
-        display: block;
-    }
-    
-    .form-group input {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    
-    button {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    
-    button:hover {
-        background-color: #0056b3;
-    }
-    
-    .login-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-    
-    .login-link a {
-        color: #007bff;
-        text-decoration: none;
-    }
-    
-    .login-link a:hover {
-        text-decoration: underline;
-    }
+    /* ... Your CSS styles ... */
 </style>
-
-
-
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Function to handle form submission
-        document.getElementById('addVaccinationCenterForm').addEventListener('submit', async(event) => {
-            event.preventDefault();
-
-            // Get form input values
-            const name = document.getElementById('name').value;
-            const startTime = document.getElementById('startTime').value;
-            const endTime = document.getElementById('endTime').value;
-            const slotsAvailable = parseInt(document.getElementById('slotsAvailable').value);
-
-            // Create a JSON object with the form data
-            const formData = {
-                name,
-                startTime,
-                endTime,
-                slotsAvailable,
-            };
-
-            try {
-                // Make a POST request to the API endpoint to add the vaccination center
-                const response = await fetch('/admin/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                // Check if the request was successful
-                if (response.ok) {
-                    // Get the response data
-                    const data = await response.json();
-                    console.log(data); // This will display the response from the server
-
-                    // Clear the form input fields after successful submission
-                    document.getElementById('name').value = '';
-                    document.getElementById('startTime').value = '';
-                    document.getElementById('endTime').value = '';
-                    document.getElementById('slotsAvailable').value = '';
-                } else {
-                    console.error('Error adding vaccination center:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error adding vaccination center:', error);
-            }
-        });
-    });
-</script>
- -->
 
 <body>
     <div class="container">
         <div class="card">
             <div class="card-header">
                 <h3>Add New Appointment</h3>
-
             </div>
             <div class="card-details">
-                <form action="/user/book" method="POST">
+                <form action="/user/book" method="POST" id="addVaccinationCenterForm">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="userName" required>
                     </div>
                     <div class="form-group">
                         <label for="vaccination center">Vaccination Center</label>
-                        <input type="text" id="startTime" name="vname" required>
+                        <input type="text" id="startTime" name="centerName" required>
                     </div>
                     <div class="form-group">
                         <label for="date">Date</label>
                         <input type="date" id="endTime" name="date" required>
                     </div>
-
                     <button type="submit">Book Vaccination Center</button>
                 </form>
             </div>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Function to handle form submission
+            document.getElementById('addVaccinationCenterForm').addEventListener('submit', async(event) => {
+                event.preventDefault();
+
+                // Get form input values
+                const name = document.getElementById('name').value;
+                const centerName = document.getElementById('startTime').value;
+                const date = document.getElementById('endTime').value;
+
+                // Create a JSON object with the form data
+                const formData = {
+                    userName: name,
+                    centerName,
+                    date,
+                };
+
+                try {
+                    // Make a POST request to the API endpoint to add the vaccination center
+                    const response = await fetch('/user/book', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+
+                    // Check if the request was successful
+                    if (response.ok) {
+                        // Get the response data
+                        const data = await response.json();
+                        console.log(data); // This will display the response from the server
+
+                        // Clear the form input fields after successful submission
+                        document.getElementById('name').value = '';
+                        document.getElementById('startTime').value = '';
+                        document.getElementById('endTime').value = '';
+                    } else {
+                        console.error('Error booking vaccination center:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error booking vaccination center:', error);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
