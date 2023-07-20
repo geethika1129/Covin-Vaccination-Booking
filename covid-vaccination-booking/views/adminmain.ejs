@@ -107,6 +107,7 @@
         <h2>Vaccination Centers</h2>
         <button><a href="/admin/add" onclick="redirectToForm()" class="bb">Add Center</a></button>
         <button><a href="/admin/getdos" onclick="redirectToForm()" class="bb">Get dosage details</a></button>
+        <button><a href="/admin/logout" onclick="redirectToForm()" class="bb">Logout</a></button>
     </div>
 
     <div class="cards-container" id="vaccinationCentresContainer">
@@ -195,6 +196,35 @@
 
         // Initial rendering of vaccination center cards
         renderVaccinationCentres();
+
+
+
+
+
+
+        // ... Rest of the JavaScript code ...
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add event listener to the logout button
+            const logoutButton = document.getElementById('logoutButton');
+            logoutButton.addEventListener('click', logoutAdmin);
+        });
+
+        async function logoutAdmin() {
+            try {
+                const response = await fetch('/admin/logout', {
+                    method: 'POST',
+                });
+
+                const data = await response.json();
+                console.log(data); // This will display the response from the server
+
+                // Redirect to the login page after logout (you can update this URL as needed)
+                window.location.href = '/admin/login';
+            } catch (error) {
+                console.error('Error logging out admin:', error);
+            }
+        }
     </script>
 </body>
 

@@ -193,23 +193,13 @@ const adminController = {
   },
 
   
-  logout: async (req, res) => {
-    try {
-      // Destroy the session to log out the admin
-      req.session.destroy((err) => {
-        if (err) {
-          console.error('Error while logging out:', err);
-          res.status(500).json({ error: 'Server error' });
-        } else {
-          res.status(200).json({ message: 'Logout successful' });
-        }
-      });
-    } catch (error) {
-      console.error('Error while logging out:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-}
+  logout : (req, res) => {
+    // Clear the admin token (cookie or local storage)
+    res.clearCookie('adminAuthToken'); // If you are using cookies
+    // Or use appropriate method to clear the token from local storage
 
-};
+    res.status(200).json({ message: 'Admin logged out successfully' });
+
+}};
 
 module.exports = adminController;

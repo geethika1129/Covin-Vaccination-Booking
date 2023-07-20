@@ -67,6 +67,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/user/login', (req, res) => {
   res.render('userlogin');
 });
+app.get('/admin/logout', (req, res) => {
+  res.render('userlogin');
+});
 
 app.get('/user/signup', (req, res) => {
   res.render('usersignup');
