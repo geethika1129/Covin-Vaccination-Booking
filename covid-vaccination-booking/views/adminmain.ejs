@@ -131,6 +131,97 @@
         /* Adjust the width as per your requirements */
         z-index: 9999;
     }
+    /* Rest of your styles */
+    
+    .card {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin-top: 20px;
+        max-width: 400px;
+        /* Adjust the max-width as needed */
+        margin: 0 auto;
+        /* Center the card horizontally */
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #fff;
+        /* Add a bottom border to the header */
+    }
+    
+    .card-header h3 {
+        margin: 0;
+    }
+    
+    .delete-button {
+        background-color: #fff;
+        color: #007bff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .card-details {
+        margin-top: 10px;
+    }
+    
+    .card-details p {
+        margin: 0;
+        font-size: 16px;
+    }
+    /* Rest of your styles */
+    
+    .card {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin-top: 20px;
+        width: 400px;
+        /* Adjust the width as needed */
+        max-width: 100%;
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #fff;
+        /* Add a bottom border to the header */
+    }
+    
+    .card-header h3 {
+        margin: 0;
+    }
+    
+    .delete-button {
+        background-color: #fff;
+        color: #007bff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    .card-details {
+        margin-top: 10px;
+    }
+    
+    .card-details p {
+        margin: 0;
+        font-size: 16px;
+    }
 </style>
 
 <body>
@@ -154,7 +245,7 @@
 
     <img class="fixed-image" src="https://img.freepik.com/free-vector/coronavirus-poster-design-with-virus-cell-stop-sign_1308-42530.jpg" alt="Fixed Image">
 
-    <div class="card">
+    <!--    <div class="card">
         <h2 class="center" class="ff" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Vaccination Center</h2>
         <div class="row">
             <div class="time ff">
@@ -168,8 +259,17 @@
             <span class="number">Number:</span>
             <h4>1234567890</h4>
         </div>
+    </div> -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Vaccination Center Name</h3>
+            <button class="delete-button">Delete</button>
+        </div>
+        <div class="card-details">
+            <p><strong>Address:</strong> Vaccination Center Address</p>
+            <p><strong>Slots Available:</strong> 10</p>
+        </div>
     </div>
-
 
 </body>
 
