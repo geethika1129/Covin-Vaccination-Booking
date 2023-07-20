@@ -48,6 +48,7 @@ const adminController = {
               }
         
               // User login successful
+              const token = jwt.sign({ adminId: Admin._id }, 'pass');
         
               // Store user information in session for future use (e.g., to check if the user is logged in)
               req.session.user = Admin;
@@ -61,28 +62,28 @@ const adminController = {
             }
           },
 
-  addVaccinationCentres: async (req, res) => {
-    const { adminId, name, start ,end } = req.body;
-
-    try {
-      // Check if the admin exists
-      const admin = await Admin.findById(adminId);
-
-      if (!admin) {
-        return res.status(404).json({ error: 'Admin not found' });
-      }
-
-      // Add a new vaccination centre
-      admin.vaccinationCentre.push({ name, start ,end  });
-
-      await admin.save();
-
-      return res.status(201).json({ message: 'Vaccination centre added successfully', admin });
-    } catch (error) {
-      console.error('Error while adding vaccination centre:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  },
+          addVaccinationCentres: async (req, res) => {
+            const { adminId, centerName, startTime, endTime, slotsAvailable } = req.body;
+        
+            try {
+              // Check if the admin exists
+              const admin = await Admin.findById(adminId);
+        
+              if (!admin) {
+                return res.status(404).json({ error: 'Admin not found' });
+              }
+        
+              // Add a new vaccination center
+              admin.vaccinationCentres.push({ centerName, startTime, endTime, slotsAvailable });
+        
+              await admin.save();
+        
+              return res.status(201).json({ message: 'Vaccination center added successfully' });
+            } catch (error) {
+              console.error('Error while adding vaccination center:', error);
+              res.status(500).json({ error: 'Server error' });
+            }
+          },
 
   getDosageDetails: async (req, res) => {
     try {
