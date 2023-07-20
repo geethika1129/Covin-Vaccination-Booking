@@ -1,0 +1,42 @@
+<!-- Add a form for the user to input the vaccination center name -->
+<form id="searchForm">
+    <label for="centerName">Enter Vaccination Center Name:</label>
+    <input type="text" id="centerName" required>
+    <button type="submit">Search</button>
+</form>
+
+<!-- Create a container to display the search results -->
+<div id="searchResults"></div>
+<!-- Your existing HTML code for the search form and search results container -->
+
+<script>
+    async function handleSearchForm(event) {
+        event.preventDefault();
+
+        const searchQuery = document.getElementById('centerName').value;
+
+        try {
+            const encodedQuery = encodeURIComponent(searchQuery);
+            const response = await fetch(`/user/searchCentre?query=${encodedQuery}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                displaySearchResults(data);
+            } else {
+                const errorData = await response.text();
+                console.error('Search failed:', errorData);
+                displayErrorMessage('Search failed. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error while searching:', error);
+            displayErrorMessage('Error while searching. Please try again later.');
+        }
+    }
+
+    function displayErrorMessage(message) {
+        const searchResultsContainer = document.getElementById('searchResults');
+        searchResultsContainer.innerHTML = `<p>${message}</p>`;
+    }
+
+    // Your existing code for createVaccinationCenterCard and event listener
+</script>

@@ -16,7 +16,8 @@ const centreSchema = new mongoose.Schema({
   slotsAvailable: {
     type: Number,
     required: true
-  }
+  },
+  
 });
 
 const Centre = mongoose.model('Centre', centreSchema);

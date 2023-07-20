@@ -1,5 +1,8 @@
 const User = require('../models/User');
+const Centre=require('../models/centre');
 const { validationResult } = require('express-validator');
+const bodyParser = require('body-parser');
+
 const userController = {
     
         login: async (req, res) => {
@@ -62,17 +65,25 @@ const userController = {
           },
         
 
-  searchVaccinationCentres: async (req, res) => {
-    try {
-      // Assuming you have a model for VaccinationCentre with fields: name and workingHours
-      const vaccinationCentres = await VaccinationCentre.find({});
-
-      return res.status(200).json({ vaccinationCentres });
-    } catch (error) {
-      console.error('Error while searching vaccination centres:', error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  },
+          searchCentre: async (req, res) => {
+            const searchQuery = req.query.query;
+        
+            try {
+                // Search for vaccination centers whose name contains the search query (case-insensitive)
+                const results = await Centre.find(
+                    { name: { $regex: searchQuery, $options: 'i' } },
+                    'name startTime endTime slotsAvailable'
+                );
+        
+                // Respond with the search results
+                res.status(200).json(results);
+            } catch (error) {
+                console.error('Error while searching:', error);
+                res.status(500).json({ error: 'Server error' });
+            }
+        },
+        
+          
 
   applyForVaccinationSlot: async (req, res) => {
     try {

@@ -89,6 +89,9 @@ app.get('/admin/add', (req, res) => {
 app.get('/admin/getdos', (req, res) => {
   res.render('admindosage');
 });
+app.get('/user/search', (req, res) => {
+  res.render('usersearch');
+});
 
 app.get('/main', (req, res) => {
     // Check if the user is logged in (authenticated)
