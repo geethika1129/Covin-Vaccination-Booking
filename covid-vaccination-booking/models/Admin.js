@@ -19,7 +19,7 @@ const adminSchema = new mongoose.Schema({
     required: true,
     enum: ['user', 'admin']
   },
-  vaccinationCentres: [
+  /* vaccinationCentres: [
     {
       name: {
         type: String,
@@ -40,7 +40,7 @@ const adminSchema = new mongoose.Schema({
       }
 
     }
-  ]
+  ] */
 });
 
 const Admin = mongoose.model('Admin', adminSchema);

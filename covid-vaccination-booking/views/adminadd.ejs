@@ -80,6 +80,57 @@
 
 
 
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Function to handle form submission
+        document.getElementById('addVaccinationCenterForm').addEventListener('submit', async(event) => {
+            event.preventDefault();
+
+            // Get form input values
+            const name = document.getElementById('name').value;
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const slotsAvailable = parseInt(document.getElementById('slotsAvailable').value);
+
+            // Create a JSON object with the form data
+            const formData = {
+                name,
+                startTime,
+                endTime,
+                slotsAvailable,
+            };
+
+            try {
+                // Make a POST request to the API endpoint to add the vaccination center
+                const response = await fetch('/admin/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                // Check if the request was successful
+                if (response.ok) {
+                    // Get the response data
+                    const data = await response.json();
+                    console.log(data); // This will display the response from the server
+
+                    // Clear the form input fields after successful submission
+                    document.getElementById('name').value = '';
+                    document.getElementById('startTime').value = '';
+                    document.getElementById('endTime').value = '';
+                    document.getElementById('slotsAvailable').value = '';
+                } else {
+                    console.error('Error adding vaccination center:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error adding vaccination center:', error);
+            }
+        });
+    });
+</script>
+ -->
 
 <body>
     <div class="container">
@@ -89,7 +140,7 @@
 
             </div>
             <div class="card-details">
-                <form>
+                <form action="/admin/add" method="POST">
                     <div class="form-group">
                         <label for="name">Vaccination Center Name</label>
                         <input type="text" id="name" name="name" required>
@@ -103,10 +154,10 @@
                         <input type="time" id="endTime" name="endTime" required>
                     </div>
                     <div class="form-group">
-                        <label for="availableSlots">Slots Available</label>
-                        <input type="number" id="availableSlots" name="availableSlots" required>
+                        <label for="slotsAvailable">Slots Available</label>
+                        <input type="number" id="slotsAvailable" name="slotsAvailable" required>
                     </div>
-                    <button type="submit" onclick="addVaccinationCenter(event)">Add Vaccination Center</button>
+                    <button type="submit">Add Vaccination Center</button>
                 </form>
             </div>
         </div>

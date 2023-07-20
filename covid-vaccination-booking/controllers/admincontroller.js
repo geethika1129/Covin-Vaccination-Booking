@@ -2,6 +2,9 @@ const Admin = require('../models/Admin');
 /* const VaccinationCentre = require('../models/Admin'); */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Centre = require('../models/centre');
+
+
 const adminController = {
 
     
@@ -63,29 +66,18 @@ const adminController = {
           },
 
           addVaccinationCentres: async (req, res) => {
-            // Extract the token from the request headers
-            const token = req.headers.authorization.split(' ')[1];
-        
+            const { name, startTime, endTime, slotsAvailable } = req.body;
             try {
-              // Verify the token to get the admin ID
-              const decodedToken = jwt.verify(token, 'your-secret-key');
-              const adminId = decodedToken.admin; // Use 'admin' instead of 'adminId' to get the correct admin ID
+              
+                const formattedStartTime = new Date(`1970-01-01T${startTime}:00Z`);
+                const formattedEndTime = new Date(`1970-01-01T${endTime}:00Z`);
+              // Create a new vaccination center
+              const newCentre = new Centre({ name, startTime: formattedStartTime, endTime: formattedEndTime, slotsAvailable });
         
-              const { name, startTime, endTime, availableSlots } = req.body;
+              // Save the new vaccination center to the database
+              await newCentre.save();
         
-              // Check if the admin exists
-              const admin = await Admin.findById(adminId);
-        
-              if (!admin) {
-                return res.status(404).json({ error: 'Admin not found' });
-              }
-        
-              // Add a new vaccination centre
-              admin.vaccinationCentres.push({ name, startTime, endTime, availableSlots });
-        
-              await admin.save();
-        
-              return res.status(201).json({ message: 'Vaccination centre added successfully', admin });
+              return res.status(201).json({ message: 'Vaccination centre added successfully', centre: newCentre });
             } catch (error) {
               console.error('Error while adding vaccination centre:', error);
               res.status(500).json({ error: 'Server error' });

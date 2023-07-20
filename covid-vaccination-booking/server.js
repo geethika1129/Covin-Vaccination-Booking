@@ -4,11 +4,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Admin = require('./models/Admin');
+const Centre = require('./models/centre');
 const session = require('express-session');
 
 
 const userRoutes = require('./routes/userroutes');
 const adminRoutes = require('./routes/adminroutes');
+/* const centreRoutes = require('./routes/centreroutes'); */
 
 const { body, validationResult } = require('express-validator');
 
