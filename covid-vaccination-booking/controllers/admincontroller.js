@@ -63,9 +63,16 @@ const adminController = {
           },
 
           addVaccinationCentres: async (req, res) => {
-            const { adminId, centerName, startTime, endTime, slotsAvailable } = req.body;
+            // Extract the token from the request headers
+            const token = req.headers.authorization.split(' ')[1];
         
             try {
+              // Verify the token to get the admin ID
+              const decodedToken = jwt.verify(token, 'your-secret-key');
+              const adminId = decodedToken.admin; // Use 'admin' instead of 'adminId' to get the correct admin ID
+        
+              const { name, startTime, endTime, availableSlots } = req.body;
+        
               // Check if the admin exists
               const admin = await Admin.findById(adminId);
         
@@ -73,17 +80,19 @@ const adminController = {
                 return res.status(404).json({ error: 'Admin not found' });
               }
         
-              // Add a new vaccination center
-              admin.vaccinationCentres.push({ centerName, startTime, endTime, slotsAvailable });
+              // Add a new vaccination centre
+              admin.vaccinationCentres.push({ name, startTime, endTime, availableSlots });
         
               await admin.save();
         
-              return res.status(201).json({ message: 'Vaccination center added successfully' });
+              return res.status(201).json({ message: 'Vaccination centre added successfully', admin });
             } catch (error) {
-              console.error('Error while adding vaccination center:', error);
+              console.error('Error while adding vaccination centre:', error);
               res.status(500).json({ error: 'Server error' });
             }
           },
+        
+          
 
   getDosageDetails: async (req, res) => {
     try {

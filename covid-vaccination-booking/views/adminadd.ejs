@@ -78,6 +78,9 @@
     }
 </style>
 
+
+
+
 <body>
     <div class="container">
         <div class="card">
@@ -88,8 +91,8 @@
             <div class="card-details">
                 <form>
                     <div class="form-group">
-                        <label for="centerName">Vaccination Center Name</label>
-                        <input type="text" id="centerName" name="centerName" required>
+                        <label for="name">Vaccination Center Name</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="startTime">Start Time</label>
@@ -100,10 +103,10 @@
                         <input type="time" id="endTime" name="endTime" required>
                     </div>
                     <div class="form-group">
-                        <label for="slotsAvailable">Slots Available</label>
-                        <input type="number" id="slotsAvailable" name="slotsAvailable" required>
+                        <label for="availableSlots">Slots Available</label>
+                        <input type="number" id="availableSlots" name="availableSlots" required>
                     </div>
-                    <button type="submit">Add Vaccination Center</button>
+                    <button type="submit" onclick="addVaccinationCenter(event)">Add Vaccination Center</button>
                 </form>
             </div>
         </div>

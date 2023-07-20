@@ -32,8 +32,12 @@ const adminSchema = new mongoose.Schema({
       end: {
         type: Date,
         required: true
+      },
+      slots:{
+        type :Number,
+        required :true
+
       }
-      
 
     }
   ]
