@@ -83,7 +83,7 @@ app.get('/user/book', (req, res) => {
 app.get('/admin/add', (req, res) => {
   res.render('adminadd');
 });
-app.get('/admin//getDosageDetails', (req, res) => {
+app.get('/admin/getdos', (req, res) => {
   res.render('admindosage');
 });
 
