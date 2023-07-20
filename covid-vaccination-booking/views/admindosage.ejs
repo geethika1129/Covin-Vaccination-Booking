@@ -1,0 +1,64 @@
+<!-- Add the following HTML code in the body section of adminmain.html -->
+<h1>Dosage Details</h1>
+<div class="dosage-details" id="dosageDetailsContainer">
+    <!-- Dosage details will be added here dynamically using JavaScript -->
+</div>
+
+<script>
+    // Function to fetch dosage details from the backend
+    async function fetchDosageDetails() {
+        try {
+            const response = await fetch('/admin/getDosageDetails');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching dosage details:', error);
+            return [];
+        }
+    }
+
+    // Function to create dosage details cards
+    function createDosageCard(dosage) {
+        const card = document.createElement('div');
+        card.classList.add('dosage-card');
+
+        const cardContent = document.createElement('div');
+        cardContent.classList.add('dosage-card-content');
+
+        const centreName = document.createElement('h3');
+        centreName.textContent = dosage.centreName;
+        cardContent.appendChild(centreName);
+
+        const totalSlots = document.createElement('p');
+        totalSlots.textContent = `Total Slots: ${dosage.totalSlots}`;
+        cardContent.appendChild(totalSlots);
+
+        const totalCentres = document.createElement('p');
+        totalCentres.textContent = `Total Centres: ${dosage.totalCentres}`;
+        cardContent.appendChild(totalCentres);
+
+        card.appendChild(cardContent);
+
+        return card;
+    }
+
+    // Function to render dosage details cards
+    async function renderDosageDetails() {
+        const dosageDetailsContainer = document.getElementById('dosageDetailsContainer');
+
+        // Clear any existing cards before fetching and rendering new ones
+        dosageDetailsContainer.innerHTML = '';
+
+        // Fetch dosage details from the backend
+        const dosageDetails = await fetchDosageDetails();
+
+        // Create and append cards for each dosage detail
+        dosageDetails.forEach(dosage => {
+            const card = createDosageCard(dosage);
+            dosageDetailsContainer.appendChild(card);
+        });
+    }
+
+    // Initial rendering of dosage details cards
+    renderDosageDetails();
+</script>

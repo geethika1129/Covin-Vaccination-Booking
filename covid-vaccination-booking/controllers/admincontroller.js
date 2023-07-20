@@ -84,7 +84,34 @@ const adminController = {
             }
           },
         
-          
+          getVaccinationCentres: async (req, res) => {
+            try {
+              const centres = await Centre.find();
+              res.status(200).json(centres);
+            } catch (error) {
+              console.error('Error while fetching vaccination centres:', error);
+              res.status(500).json({ error: 'Server error' });
+            }
+          },
+
+           deleteVaccinationCentre : async (req, res) => {
+            const centreId = req.params.centreId;
+        
+            try {
+                // Find the vaccination center by ID and delete it
+                const deletedCentre = await Centre.findByIdAndDelete(centreId);
+        
+                if (!deletedCentre) {
+                    return res.status(404).json({ error: 'Vaccination center not found' });
+                }
+        
+                return res.status(200).json({ message: 'Vaccination center deleted successfully', centre: deletedCentre });
+            } catch (error) {
+                console.error('Error while deleting vaccination centre:', error);
+                res.status(500).json({ error: 'Server error' });
+            }
+        }, 
+ 
 
   getDosageDetails: async (req, res) => {
     try {
@@ -107,6 +134,33 @@ const adminController = {
       res.status(500).json({ error: 'Server error' });
     }
   },
+
+  getDosageDetails : async (req, res) => {
+    try {
+      // Group vaccination centers and calculate dosage details
+      const dosageDetails = await Centre.aggregate([
+        {
+          $group: {
+            _id: '$name',
+            totalSlots: { $sum: '$slotsAvailable' },
+            totalCentres: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            centreName: '$_id',
+            totalSlots: 1,
+            totalCentres: 1,
+          },
+        },
+      ]);
+  
+      res.status(200).json(dosageDetails);
+    } catch (error) {
+      console.error('Error while fetching dosage details:', error);
+      res.status(500).json({ error: 'Server error' });
+    }},
 
   removeVaccinationCentre: async (req, res) => {
     const { adminId, centreId } = req.body;

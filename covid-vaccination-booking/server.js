@@ -83,6 +83,9 @@ app.get('/user/book', (req, res) => {
 app.get('/admin/add', (req, res) => {
   res.render('adminadd');
 });
+app.get('/admin//getDosageDetails', (req, res) => {
+  res.render('admindosage');
+});
 
 app.get('/main', (req, res) => {
     // Check if the user is logged in (authenticated)
