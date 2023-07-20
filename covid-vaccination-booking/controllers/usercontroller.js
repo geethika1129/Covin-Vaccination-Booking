@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Centre=require('../models/centre');
+const Appointment=require('../models/Appointment');
 const { validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 
@@ -66,55 +67,77 @@ const userController = {
         
 
           searchCentre: async (req, res) => {
-            const searchQuery = req.query.query;
-        
-            try {
-                // Search for vaccination centers whose name contains the search query (case-insensitive)
-                const results = await Centre.find(
-                    { name: { $regex: searchQuery, $options: 'i' } },
-                    'name startTime endTime slotsAvailable'
-                );
-        
-                // Respond with the search results
-                res.status(200).json(results);
-            } catch (error) {
-                console.error('Error while searching:', error);
-                res.status(500).json({ error: 'Server error' });
-            }
-        },
-        
+    const searchQuery = req.query.query;
+
+    try {
+        // Search for vaccination centers whose name contains the search query (case-insensitive)
+        const results = await Centre.find(
+            { name: { $regex: searchQuery, $options: 'i' } },
+            'name startTime endTime slotsAvailable'
+        );
+
+        // Respond with the search results
+        res.status(200).json(results);
+    } catch (error) {
+        console.error('Error while searching:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+},
+
           
 
   applyForVaccinationSlot: async (req, res) => {
+   // controllers/userController.js
+
+
+    const userName = req.body.userName;
+    const centerName = req.body.centerName;
+
     try {
-      const { userId, vaccinationCentreId, slotDate } = req.body;
+        // Find the user by name
+        const user = await User.findOne({ name: userName });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
-      // Check if the user exists
-      const user = await User.findById(userId);
+        // Find the vaccination center by name
+        const centre = await Centre.findOne({ name: centerName });
+        if (!centre) {
+            return res.status(404).json({ error: 'Vaccination center not found' });
+        }
 
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
+        // Get the current date
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0); // Set the time to midnight to compare dates
 
-      // Check if the user already has 10 vaccination slots for the day
-      if (user.vaccinationSlots.length >= 10) {
-        return res.status(403).json({ error: 'Maximum slots reached for the day' });
-      }
+        // Find all appointments for the center on the current date
+        const appointments = await Appointment.find({
+            centre: centre._id,
+            date: currentDate,
+        });
 
-      // Apply for the vaccination slot
-      user.vaccinationSlots.push({
-        vaccinationCentre: vaccinationCentreId,
-        slotDate: new Date(slotDate)
-      });
+        // Check if the center has reached its maximum capacity for the day
+        if (appointments.length >= centre.maxCapacity) {
+            return res.status(403).json({ error: 'Vaccination center is fully booked for the day' });
+        }
 
-      await user.save();
+        // Create a new appointment record
+        const newAppointment = new Appointment({
+            user: user._id,
+            centre: centre._id,
+            date: currentDate,
+        });
 
-      return res.status(200).json({ message: 'Vaccination slot applied successfully', user });
+        // Save the appointment record to the database
+        await newAppointment.save();
+
+        res.status(200).json({ message: 'Appointment booked successfully' });
     } catch (error) {
-      console.error('Error while applying for a vaccination slot:', error);
-      res.status(500).json({ error: 'Server error' });
+        console.error('Error while booking appointment:', error);
+        res.status(500).json({ error: 'Server error' });
     }
-  },
+},
+
 
   logout: async (req, res) => {
     try {

@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Admin = require('./models/Admin');
 const Centre = require('./models/centre');
+const Appointment = require('./models/Appointment');
+
 const session = require('express-session');
 
 
