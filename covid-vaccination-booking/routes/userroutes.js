@@ -8,5 +8,6 @@ router.post('/signup', userController.signup);
 router.get('/searchCentre', userController.searchCentre);
 router.post('/bookAppointment', userController.applyForVaccinationSlot);
 router.post('/logout', userController.logout);
+router.get('/getAppointments', userController.getAppointments);
 
 module.exports = router;

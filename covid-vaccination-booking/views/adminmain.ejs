@@ -32,6 +32,7 @@
         align-items: center;
         width: 100%;
         top: 0;
+        margin-top: 200px;
     }
     
     .navbar h2 {
@@ -58,6 +59,7 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
+        padding-top: 40px;
     }
     
     .card {
@@ -105,9 +107,9 @@
 
     <div class="navbar">
         <h2>Vaccination Centers</h2>
-        <button><a href="/admin/add" onclick="redirectToForm()" class="bb">Add Center</a></button>
-        <button><a href="/admin/getdos" onclick="redirectToForm()" class="bb">Get dosage details</a></button>
-        <button><a href="/admin/logout" onclick="redirectToForm()" class="bb">Logout</a></button>
+        <a href="/admin/add" onclick="redirectToForm()" class="delete-button">Add Center</a>
+        <a href="/admin/getdos" onclick="redirectToForm()" class="delete-button">Get dosage details</a>
+        <a href="/admin/logout" onclick="redirectToForm()" class="delete-button">Logout</a>
     </div>
 
     <div class="cards-container" id="vaccinationCentresContainer">

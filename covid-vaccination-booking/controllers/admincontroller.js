@@ -76,7 +76,8 @@ const adminController = {
         
               // Save the new vaccination center to the database
               await newCentre.save();
-        
+              res.redirect('/admin/adminmain');
+             
               return res.status(201).json({ message: 'Vaccination centre added successfully', centre: newCentre });
             } catch (error) {
               console.error('Error while adding vaccination centre:', error);

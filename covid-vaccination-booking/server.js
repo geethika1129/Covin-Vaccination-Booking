@@ -82,6 +82,9 @@ app.get('/admin/login', (req, res) => {
 app.get('/admin/main', (req, res) => {
   res.render('adminmain');
 });
+app.get('/user/main', (req, res) => {
+  res.render('main');
+});
 app.get('/user/book', (req, res) => {
   res.render('userbook');
 });

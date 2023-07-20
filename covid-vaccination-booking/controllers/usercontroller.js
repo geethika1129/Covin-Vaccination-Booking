@@ -85,55 +85,85 @@ const userController = {
 },
 
           
+// controllers/userController.js
 applyForVaccinationSlot: async (req, res) => {
     const userName = req.body.userName;
     const centerName = req.body.centerName;
-  
+    const appointmentDateStr = req.body.date; // Date input from the form
+
     try {
-      // Find the vaccination center by name
-      const centre = await Centre.findOne({ name: centerName });
-      if (!centre) {
-        return res.status(404).json({ error: 'Vaccination center not found' });
-      }
-  
-      // Get the current date
-      const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0); // Set the time to midnight to compare dates
-  
-      // Find all appointments for the center on the current date
-      const appointments = await Appointment.find({
-        centre: centerName,
-        date: currentDate,
-      });
-  
-      // Check if the center has reached its maximum capacity for the day
-      if (appointments.length >= 10) {
-        return res.status(403).json({ error: 'Vaccination center is fully booked for the day' });
-      }
-  
-      // Find the user by userName
-      const user = await User.findOne({ name :userName });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      } 
-  
-      // Create a new appointment record
-      const newAppointment = new Appointment({
-        user: userName, // Assign the user's _id to the appointment's user field
-        centre: centerName,
-        date: currentDate,
-      });
-  
-      // Save the appointment record to the database
-      await newAppointment.save();
-  
-      res.status(200).json({ message: 'Appointment booked successfully' });
+        // Check if the date is provided in the request body
+        if (!appointmentDateStr) {
+            return res.status(400).json({ error: 'Appointment date is required' });
+        }
+
+        // Convert the date string to a valid JavaScript Date object
+        const appointmentDate = new Date(appointmentDateStr);
+
+        // Check if the appointmentDate is valid (not an "Invalid Date" object)
+        if (isNaN(appointmentDate)) {
+            return res.status(400).json({ error: 'Invalid appointment date format' });
+        }
+
+        // Find the user by userName
+        const user = await User.findOne({ name: userName });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Find all appointments for the user on the specified date at any center
+        const userAppointments = await Appointment.find({
+            user: user.name,
+            date: appointmentDate,
+        });
+
+        // Check if the user has already booked 10 appointments on the same day
+        if (userAppointments.length >= 10) {
+            return res.status(403).json({ error: 'You have reached the maximum limit of appointments for the day' });
+        }
+
+        // Find the vaccination center by name
+        const centre = await Centre.findOne({ name: centerName });
+        if (!centre) {
+            return res.status(404).json({ error: 'Vaccination center not found' });
+        }
+
+        // Find all appointments for the center on the specified date
+        const centerAppointments = await Appointment.find({
+            centre: centre.name,
+            date: appointmentDate,
+        });
+
+        // Check if the center has reached its maximum capacity for the day
+        if (centerAppointments.length >= 10) {
+            return res.status(403).json({ error: 'Vaccination center is fully booked for the day' });
+        }
+
+        // Create a new appointment record
+        const newAppointment = new Appointment({
+            user: user._id, // Assign the user's _id to the appointment's user field
+            centre: centre._id,
+            date: appointmentDate,
+        });
+
+        // Save the appointment record to the database
+        await newAppointment.save();
+
+        res.status(200).json({ message: 'Appointment booked successfully' });
     } catch (error) {
-      console.error('Error while booking appointment:', error);
+        console.error('Error while booking appointment:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+},
+getAppointments: async (req, res) => {
+    try {
+      const appoint = await Appointment.find();
+      res.status(200).json(appoint);
+    } catch (error) {
+      console.error('Error while fetching vaccination centres:', error);
       res.status(500).json({ error: 'Server error' });
     }
   },
-  
 
   logout: async (req, res) => {
     try {
