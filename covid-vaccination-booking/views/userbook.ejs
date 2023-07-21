@@ -7,7 +7,75 @@
 </head>
 
 <style>
-    /* ... Your CSS styles ... */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f2f2f2;
+    }
+    
+    .container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+    }
+    
+    .container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        font-weight: bold;
+        display: block;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .login-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
 </style>
 
 <body>
@@ -30,7 +98,7 @@
                         <label for="date">Date</label>
                         <input type="date" id="endTime" name="date" required>
                     </div>
-                    <button type="submit">Book Vaccination Center</button>
+                    <button type="submit" id="bbb">Book Vaccination Center</button>
                 </form>
             </div>
         </div>
@@ -50,13 +118,13 @@
                 // Create a JSON object with the form data
                 const formData = {
                     userName: name,
-                    centerName,
-                    date,
+                    centerName: centerName,
+                    date: date,
                 };
 
                 try {
                     // Make a POST request to the API endpoint to add the vaccination center
-                    const response = await fetch('/user/book', {
+                    const response = await fetch('user/bookAppointment', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -70,6 +138,7 @@
                         const data = await response.json();
                         console.log(data); // This will display the response from the server
 
+
                         // Clear the form input fields after successful submission
                         document.getElementById('name').value = '';
                         document.getElementById('startTime').value = '';
@@ -78,10 +147,14 @@
                         console.error('Error booking vaccination center:', response.statusText);
                     }
                 } catch (error) {
-                    console.error('Error booking vaccination center:', error);
+                    console.error('Error ', error);
                 }
             });
         });
+
+        document.getElementById("bbb").onclick = function() {
+            location.href = "/user/main";
+        };
     </script>
 </body>
 
